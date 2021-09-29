@@ -126,13 +126,13 @@
 	    <repository>
 	      <id>nexus</id>
 	      <name>Wallmart Releases Nexus Repository</name>
-	      <url>http://13.232.12.186:9032/narasimha/repository/wallmart-release/</url>
+	      <url>http://13.235.13.87:9032/narasimha/repository/wallmart-release/</url>
 	    </repository>
 	    
 	    <snapshotRepository>
 	      <id>nexus</id>
 	      <name>Wallmart Snapshot Nexus Repository </name>
-	      <url>http://13.232.12.186:9032/narasimha/repository/wallmart-snapshot/</url>
+	      <url>http://13.235.13.87:9032/narasimha/repository/wallmart-snapshot/</url>
 	    </snapshotRepository>
 	    
 	</distributionManagement>
