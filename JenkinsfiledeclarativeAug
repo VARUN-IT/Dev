@@ -1,0 +1,60 @@
+pipeline{
+
+agent any
+
+tools{
+maven "maven 3.8.2"
+}
+
+options{
+
+buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '5', daysToKeepStr: '', numToKeepStr: '5'))
+
+timestamps()
+}
+
+triggers{
+//poll SCM
+pollSCM('* * * * *')
+//Build periodically
+//cron('* * * * *')
+//GitHubwebhook
+//githubPush()
+}
+
+stages{
+
+stage ('CheckOutCode'){
+steps{
+git branch: 'development', credentialsId: '361ffd73-4c85-435c-9770-840888ac94de', url: 'https://github.com/VARUN-IT/Dev.git'
+}
+}
+stage('Build'){
+steps{
+sh "mvn clean package"
+}
+}
+stage('ExecuteSonarQubeReport'){
+steps{
+sh "mvn clean sonar:sonar"
+}
+}
+
+stage('UploadArtifactIntoNexusRepo'){
+steps{
+sh "mvn clean deploy"
+}
+}
+
+stage('UploadWarFileIntoTomCstServer'){
+steps{
+sshagent(['09decb06-7657-40f0-860d-db43ce8131d1']){
+  sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@13.127.67.168:/opt/apache-tomcat-9.0.53/webapps"  
+}
+}
+}
+
+
+}
+}
+
