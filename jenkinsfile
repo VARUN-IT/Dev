@@ -1,0 +1,12 @@
+node
+{
+
+def mavanHome = tool name: "mavan 3.6.2"
+stage ('CheckOutCode'){
+git branch: 'development', credentialsId: '361ffd73-4c85-435c-9770-840888ac94de', url: 'https://github.com/VARUN-IT/Dev.git'
+}
+stage('Build'){
+sh "${mavanHome}bin/mvn clean package"
+}
+
+}
