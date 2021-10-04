@@ -1,12 +1,32 @@
 node
 {
 
-def mavanHome = tool name: "mavan 3.6.2"
+def mavenHome = tool name: "maven 3.8.2"
 stage ('CheckOutCode'){
 git branch: 'development', credentialsId: '361ffd73-4c85-435c-9770-840888ac94de', url: 'https://github.com/VARUN-IT/Dev.git'
 }
 stage('Build'){
-sh "${mavanHome}bin/mvn clean package"
+sh "${mavenHome}/bin/mvn clean package"
 }
 
+stage('ExecuteSonarQubeReport'){
+sh "${mavenHome}/bin/mvn clean sonar:sonar"
+}
+stage('UploadArtifactIntoNexusRepo'){
+sh "${mavenHome}/bin/mvn clean deploy"
+}
+
+stage('UploadWarFileIntoTomCstServer'){
+sshagent(['09decb06-7657-40f0-860d-db43ce8131d1']) {
+  sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@13.127.67.168:/opt/apache-tomcat-9.0.53/webapps"  
+}
+}
+
+stage ('SendMailNotification'){
+mail bcc: '', body: '''Build Success!!
+
+Thanks,
+Narasimha''', cc: '', from: 'chigurupati2021@gmail.com', replyTo: '', subject: 'Build Success', to: 'chigurupati2021@gmail.com'
+}
+}
 }
