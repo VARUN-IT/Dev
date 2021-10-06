@@ -49,7 +49,7 @@ sh "mvn clean deploy"
 stage('UploadWarFileIntoTomCstServer'){
 steps{
 sshagent(['09decb06-7657-40f0-860d-db43ce8131d1']){
-  sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@http://3.109.133.38:9980/:/opt/apache-tomcat-9.0.53/webapps"  
+  sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@3.109.133.38:/opt/apache-tomcat-9.0.53/webapps"  
 }
 }
 }
