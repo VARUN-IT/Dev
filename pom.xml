@@ -39,7 +39,7 @@
 	  <repository>
 	     <id>nexus</id>
         <name>MSS Remote Repo</name>
-         <url>http://13.232.12.186:9032/narasimha/repository/group-repo-mss/</url>
+         <url>http://35.154.215.15:9000/narasimha/repository/group-repo-mss/</url>
       </repository>
 	  
 	  </repositories>
